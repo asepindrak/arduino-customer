@@ -8247,6 +8247,13 @@ thead {
   background-size: cover ;
   color: #fff;
 }
+thead th {
+  color: #fff !important;
+}
+.paging {
+  background-image: url(../../../image/bg.jpg);
+  background-size: cover ;
+}
 .colwhite {
   color: #fff;
 }

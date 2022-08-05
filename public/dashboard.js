@@ -56,6 +56,9 @@ app.controller("ctrl", function ($scope, $http, $window) {
   $scope.getTotal();
 
   $scope.getData = function () {
+    $scope.totalTP = 0;
+    $scope.totalP = 0;
+    $scope.totalSP = 0;
     $http
       .get(
         `${https}get-review?page=${$scope.page}&limit=${
@@ -85,6 +88,10 @@ app.controller("ctrl", function ($scope, $http, $window) {
 
   $scope.filterData = function (event) {
     event.preventDefault();
+
+    $scope.totalTP = 0;
+    $scope.totalP = 0;
+    $scope.totalSP = 0;
     $scope.page = 1;
     $scope.getTotal();
     $http
