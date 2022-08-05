@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="ctrl">
+  <head>
+    <title>Survey Kepuasan Polres Garut</title>
+    <link rel="shortcut icon" href="public/image/logo.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/fontawesome-free/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/tampilan_pendukung/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/tampilan_pendukung/tampilan_tambahan.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/tampilan_pendukung/tampilan_login.css"
+      type="text/css"
+    />
+    <style type="text/css">
+      .clock {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        color: #fff;
+        font-size: 25px;
+        letter-spacing: 7px;
+      }
+      .sim .col-6 {
+        padding: 30px;
+      }
+      .sim .col-6 button {
+        padding: 30px;
+        font-size: 30px;
+      }
+      body {
+        transition: 0.7s;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .fs-36 {
+        font-size: 36px !important;
+        font-weight: bold;
+      }
+      table thead tr th {
+        color: #222;
+        font-weight: bold;
+      }
+      .fs-50 {
+        font-size: 50px !important;
+        font-weight: bold !important;
+      }
+      .color-white {
+        color: #fff !important;
+      }
+    </style>
+  </head>
+
+  <body style="background: url(public/image/bg.jpg); background-size: cover">
+    <section class="container">
+      <div class="row pt-2">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-2">
+          <center>
+            <button class="btn btn-danger" ng-click="logout()">Logout</button>
+          </center>
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <center>
+          <img src="public/image/logo-satlantas.png" width="130" />
+        </center>
+      </div>
+
+      <div class="col-lg-12 bg-white py-3 px-5 mb-3">
+        <h5>Daftar Ulasan</h5>
+        <h6>Filter</h6>
+        <form class="form form-inline" ng-submit="filterData($event)">
+          <input
+            class="form-control"
+            type="date"
+            ng-model="date_start"
+            name="date_start"
+            required="required"
+          />
+          <label style="margin-left: 10px">s/d</label>
+          <input
+            class="form-control"
+            type="date"
+            ng-model="date_end"
+            name="date_end"
+            style="margin-left: 10px"
+            required="required"
+          />
+          <select
+            class="form-control ms-3"
+            ng-model="review"
+            name="review"
+            style="margin-left: 10px"
+          >
+            <option value="">Semua ulasan</option>
+            <option value="2">Sangat Puas</option>
+            <option value="1">Puas</option>
+            <option value="0">Tidak Puas</option>
+          </select>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="margin-left: 10px"
+          >
+            Filter
+          </button>
+        </form>
+        <h6 class="mt-3">Total ulasan: {{total}}</h6>
+      </div>
+      <div class="col-lg-12 bg-white py-3 px-5 mb-3">
+        <h5>Statistik Ulasan</h5>
+        <div class="row">
+          <div class="col-lg-4">
+            <center>
+              <div class="btn btn-danger" style="width: 300px">
+                <h1 class="color-white fs-50">
+                  {{((totalTP / total) * 100).toFixed(1)}}%
+                </h1>
+                <h4 class="color-white">Tidak Puas</h4>
+              </div>
+            </center>
+          </div>
+          <div class="col-lg-4">
+            <center>
+              <div class="btn btn-primary" style="width: 300px">
+                <h1 class="color-white fs-50">
+                  {{((totalP / total) * 100).toFixed(1)}}%
+                </h1>
+                <h4 class="color-white">Puas</h4>
+              </div>
+            </center>
+          </div>
+          <div class="col-lg-4">
+            <center>
+              <div class="btn btn-success" style="width: 300px">
+                <h1 class="color-white fs-50">
+                  {{((totalSP / total) * 100).toFixed(1)}}%
+                </h1>
+                <h4 class="color-white">Sangat Puas</h4>
+              </div>
+            </center>
+          </div>
+        </div>
+      </div>
+      <table class="table table-stripped table-default bg-white">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Tanggal</th>
+            <th>Ulasan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="c in reviews">
+            <td>{{($index + 1) + ((page - 1) * limit)}}</td>
+            <td>{{formatDate(c.created_at)}}</td>
+            <td ng-if="c.review==0" class="alert alert-danger">Tidak Puas</td>
+            <td ng-if="c.review==1" class="alert alert-primary">Puas</td>
+            <td ng-if="c.review==2" class="alert alert-success">Sangat Puas</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="container bg-white py-3 px-3 mb-5">
+        <div class="row">
+          <div class="col-lg-9"></div>
+          <div class="col-lg-3">
+            <center>
+              <button class="btn btn-primary" ng-click="prev()">Prev</button>
+              <button
+                class="btn btn-success"
+                ng-click="next()"
+                style="margin-left: 10px"
+              >
+                Next
+              </button>
+            </center>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="public/static/angular.js"></script>
+    <script src="config.js"></script>
+    <script src="public/dashboard.js"></script>
+    <script src="public/static/bootstrap/js/jquery.min.js"></script>
+    <script src="public/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="public/static/bootstrap/js/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+    </script>
+    <script>
+      var socket = io();
+
+      socket.on("data", (data) => {
+        if (data == 1) {
+          $(".title").addClass("hidden");
+          $(".sangat-puas").addClass("hidden");
+          $(".tidak-puas").addClass("hidden");
+          $(".title-survey").addClass("fs-36");
+
+          $(".puas").removeClass("col-lg-4");
+          $(".thank").removeClass("hidden");
+        } else if (data == 2) {
+          $(".title").addClass("hidden");
+          $(".puas").addClass("hidden");
+          $(".tidak-puas").addClass("hidden");
+          $(".title-survey").addClass("fs-36");
+
+          $(".sangat-puas").removeClass("col-lg-4");
+          $(".thank").removeClass("hidden");
+        } else if (data == 0) {
+          $(".title").addClass("hidden");
+          $(".puas").addClass("hidden");
+          $(".sangat-puas").addClass("hidden");
+          $(".title-survey").addClass("fs-36");
+
+          $(".tidak-puas").removeClass("col-lg-4");
+          $(".thank").removeClass("hidden");
+        }
+        setTimeout(function () {
+          $(".puas").addClass("col-lg-4");
+          $(".sangat-puas").addClass("col-lg-4");
+          $(".tidak-puas").addClass("col-lg-4");
+          $(".thank").addClass("hidden");
+
+          $(".title").removeClass("hidden");
+          $(".puas").removeClass("hidden");
+          $(".sangat-puas").removeClass("hidden");
+          $(".tidak-puas").removeClass("hidden");
+          $(".title-survey").removeClass("fs-36");
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>

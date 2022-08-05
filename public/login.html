@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="ctrl">
+  <head>
+    <title>Survey Kepuasan Polres Garut</title>
+    <link rel="shortcut icon" href="public/image/logo.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/fontawesome-free/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/tampilan_pendukung/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/tampilan_pendukung/tampilan_tambahan.css"
+    />
+    <link
+      rel="stylesheet"
+      href="public/static/bootstrap/tampilan_pendukung/tampilan_login.css"
+      type="text/css"
+    />
+    <style type="text/css">
+      .clock {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        color: #fff;
+        font-size: 25px;
+        letter-spacing: 7px;
+      }
+      .sim .col-6 {
+        padding: 30px;
+      }
+      .sim .col-6 button {
+        padding: 30px;
+        font-size: 30px;
+      }
+      body {
+        transition: 0.7s;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .fs-36 {
+        font-size: 36px !important;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body style="background: url(public/image/bg.jpg); background-size: cover">
+    <section class="container-fluid">
+      <center>
+        <form
+          class="form-container"
+          style="background: #0e4370"
+          ng-submit="login($event)"
+        >
+          <center>
+            <img src="public/image/logocombine.png" width="250" />
+          </center>
+          <br />
+          <div class="form-group" style="color: #fff">
+            <label for="exampleInputEmail1">Username</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-user"></i></div>
+                <input
+                  type="text"
+                  ng-model="username"
+                  name="username"
+                  class="form-control"
+                  aria-describedby="userHelp"
+                  placeholder="Masukkan User Name"
+                  required=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="color: #fff">
+            <label for="exampleInputPassword1">Password</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="fas fa-unlock-alt"></i>
+                </div>
+                <input
+                  type="password"
+                  ng-model="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Masukkan Password"
+                  required=""
+                />
+              </div>
+            </div>
+          </div>
+          <br />
+          <p ng-if="failed" class="failed alert alert-danger">Login gagal</p>
+          <button type="submit" class="btn btn-danger btn-block">LOGIN</button>
+          <br />
+          <font color="#fff" style="font-weight: bold"
+            >SMART POLANTAS POLRES GARUT</font
+          >
+          <br />
+          <font color="#aaa" style="font-size: 13px"
+            >Copyright &copy; 2022 Satlantas Polres Garut <br />Developed by
+            GeTech Indonesia</font
+          >
+        </form>
+      </center>
+      <br /><br /><br />
+    </section>
+    <script src="public/static/angular.js"></script>
+    <script src="config.js"></script>
+    <script src="public/login.js"></script>
+    <script src="public/static/bootstrap/js/jquery.min.js"></script>
+    <script src="public/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="public/static/bootstrap/js/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+    </script>
+    <script>
+      var socket = io();
+
+      socket.on("data", (data) => {
+        if (data == 1) {
+          $(".title").addClass("hidden");
+          $(".sangat-puas").addClass("hidden");
+          $(".tidak-puas").addClass("hidden");
+          $(".title-survey").addClass("fs-36");
+
+          $(".puas").removeClass("col-lg-4");
+          $(".thank").removeClass("hidden");
+        } else if (data == 2) {
+          $(".title").addClass("hidden");
+          $(".puas").addClass("hidden");
+          $(".tidak-puas").addClass("hidden");
+          $(".title-survey").addClass("fs-36");
+
+          $(".sangat-puas").removeClass("col-lg-4");
+          $(".thank").removeClass("hidden");
+        } else if (data == 0) {
+          $(".title").addClass("hidden");
+          $(".puas").addClass("hidden");
+          $(".sangat-puas").addClass("hidden");
+          $(".title-survey").addClass("fs-36");
+
+          $(".tidak-puas").removeClass("col-lg-4");
+          $(".thank").removeClass("hidden");
+        }
+        setTimeout(function () {
+          $(".puas").addClass("col-lg-4");
+          $(".sangat-puas").addClass("col-lg-4");
+          $(".tidak-puas").addClass("col-lg-4");
+          $(".thank").addClass("hidden");
+
+          $(".title").removeClass("hidden");
+          $(".puas").removeClass("hidden");
+          $(".sangat-puas").removeClass("hidden");
+          $(".tidak-puas").removeClass("hidden");
+          $(".title-survey").removeClass("fs-36");
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>
