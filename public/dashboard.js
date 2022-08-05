@@ -7,7 +7,7 @@ app.controller("ctrl", function ($scope, $http, $window) {
     $scope.total = 0;
     $scope.reviews = [];
     $scope.page = 1;
-    $scope.limit = 20;
+    $scope.limit = 10;
     $scope.totalTP = 0;
     $scope.totalP = 0;
     $scope.totalSP = 0;
@@ -55,6 +55,26 @@ app.controller("ctrl", function ($scope, $http, $window) {
   };
   $scope.getTotal();
 
+  $scope.getTotalData = function () {
+    $scope.totalTP = 0;
+    $scope.totalP = 0;
+    $scope.totalSP = 0;
+    $http
+      .get(
+        `${https}get-total-data?date_start=${$scope.formatDate(
+          $scope.date_start
+        )}&date_end=${$scope.formatDate($scope.date_end)}&review=${
+          $scope.review
+        }`
+      )
+      .then(function (response) {
+        var result = response.data;
+        $scope.totalTP = result.totalTP;
+        $scope.totalP = result.totalP;
+        $scope.totalSP = result.totalSP;
+      });
+  };
+
   $scope.getData = function () {
     $scope.totalTP = 0;
     $scope.totalP = 0;
@@ -73,15 +93,7 @@ app.controller("ctrl", function ($scope, $http, $window) {
         var result = response.data;
         console.log(result);
         $scope.reviews = result;
-        result.forEach((item) => {
-          if (item.review == 0) {
-            $scope.totalTP += 1;
-          } else if (item.review == 1) {
-            $scope.totalP += 1;
-          } else if (item.review == 2) {
-            $scope.totalSP += 1;
-          }
-        });
+        $scope.getTotalData();
       });
   };
   $scope.getData();
@@ -107,15 +119,8 @@ app.controller("ctrl", function ($scope, $http, $window) {
       .then(function (response) {
         var result = response.data;
         $scope.reviews = result;
-        result.forEach((item) => {
-          if (item.review == 0) {
-            $scope.totalTP += 1;
-          } else if (item.review == 1) {
-            $scope.totalP += 1;
-          } else if (item.review == 2) {
-            $scope.totalSP += 1;
-          }
-        });
+
+        $scope.getTotalData();
       });
   };
   $scope.next = () => {

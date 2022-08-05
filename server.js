@@ -59,6 +59,7 @@ app.get("/get-total", (req, res) => {
     }
   );
 });
+
 app.get("/get-review", (req, res) => {
   let { date_start, date_end, review } = req.query;
 
@@ -88,6 +89,53 @@ app.get("/get-review", (req, res) => {
       if (err) console.log(err);
       console.log(rows);
       res.send(rows);
+    }
+  );
+});
+
+app.get("/get-total-data", (req, res) => {
+  let { date_start, date_end, review } = req.query;
+
+  let filter = "";
+  if (date_start != "" && date_end != "") {
+    if (review == "") {
+      filter = `WHERE created_at BETWEEN '${date_start}' AND '${date_end}'`;
+    } else {
+      filter = `WHERE review = '${review}' AND created_at BETWEEN '${date_start}' AND '${date_end}'`;
+    }
+  }
+  console.log("filter " + filter);
+  connection.query(
+    `SELECT * FROM survey ${filter} ORDER BY id DESC`,
+    function (err, rows, fields) {
+      if (err) console.log(err);
+      console.log(rows);
+      if (rows.length > 0) {
+        let data = {
+          totalTP: 0,
+          totalP: 0,
+          totalSP: 0,
+        };
+        for (var i = 0; i < rows.length; i++) {
+          let item = rows[i];
+          if (item.review == 0) {
+            data.totalTP += 1;
+          } else if (item.review == 1) {
+            data.totalP += 1;
+          } else if (item.review == 2) {
+            data.totalSP += 1;
+          }
+        }
+        console.log(data);
+        res.send(data);
+      } else {
+        let data = {
+          totalTP: 0,
+          totalP: 0,
+          totalSP: 0,
+        };
+        res.send(data);
+      }
     }
   );
 });
