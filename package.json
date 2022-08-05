@@ -11,8 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-http-to-https": "^1.1.4",
-    "serialport": "^10.4.0"
+    "http": "^0.0.1-security",
+    "mysql": "^2.18.1",
+    "serialport": "^10.4.0",
+    "socket.io": "^4.5.1"
   }
 }
