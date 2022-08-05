@@ -83,16 +83,17 @@
 
       <div class="col-lg-12 bg-white py-3 px-5 mb-3">
         <div class="row">
-          <div class="col-lg-10">
-            <h5>Daftar Ulasan</h5>
+          <div class="col-lg-10 mb-3">
+            <h5 class="color-success fw-bold">Ulasan Polres Garut</h5>
           </div>
           <div class="col-lg-2">
             <center>
-              <button class="btn btn-danger" ng-click="logout()">Logout</button>
+              <button class="btn btn-danger pull-right" ng-click="logout()">
+                <i class="fa fa-sign-out"></i>
+              </button>
             </center>
           </div>
         </div>
-        <h6>Filter</h6>
         <form class="form form-inline" ng-submit="filterData($event)">
           <input
             class="form-control"
@@ -129,10 +130,10 @@
             Filter
           </button>
         </form>
-        <h6 class="mt-3">Total ulasan: {{total}}</h6>
+        <h6 class="mt-3 alert alert-success">Total: {{total}} ulasan</h6>
       </div>
       <div class="col-lg-12 bg-white py-3 px-5 mb-3">
-        <h5>Statistik Ulasan</h5>
+        <h5 class="color-success fw-bold mb-4">Statistik Ulasan</h5>
         <div class="row">
           <div class="col-lg-4">
             <center>
@@ -175,6 +176,7 @@
       <table
         ng-if="total>0"
         class="table table-stripped table-default bg-white"
+        style="margin-bottom: 0 !important"
       >
         <thead>
           <tr>
@@ -187,9 +189,15 @@
           <tr ng-repeat="c in reviews">
             <td>{{($index + 1) + ((page - 1) * limit)}}</td>
             <td>{{formatDate(c.created_at)}}</td>
-            <td ng-if="c.review==0" class="alert alert-danger">Tidak Puas</td>
-            <td ng-if="c.review==1" class="alert alert-primary">Puas</td>
-            <td ng-if="c.review==2" class="alert alert-success">Sangat Puas</td>
+            <td ng-if="c.review==0" class="alert alert-danger">
+              <img src="public/image/sad.gif" width="25" /> Tidak Puas
+            </td>
+            <td ng-if="c.review==1" class="alert alert-primary">
+              <img src="public/image/puas.gif" width="25" /> Puas
+            </td>
+            <td ng-if="c.review==2" class="alert alert-success">
+              <img src="public/image/sangatpuas.gif" width="25" /> Sangat Puas
+            </td>
           </tr>
         </tbody>
       </table>

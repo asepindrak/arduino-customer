@@ -56,9 +56,9 @@ app.controller("ctrl", function ($scope, $http, $window) {
       )
       .then(function (response) {
         var result = response.data;
-        console.log(result);
+        // console.log(result);
         $scope.total = result[0].total;
-        console.log($scope.total);
+        // console.log($scope.total);
       });
   };
   $scope.getTotal();
@@ -99,7 +99,7 @@ app.controller("ctrl", function ($scope, $http, $window) {
       )
       .then(function (response) {
         var result = response.data;
-        console.log(result);
+        // console.log(result);
         $scope.reviews = result;
         $scope.getTotalData();
       });

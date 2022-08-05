@@ -30,7 +30,7 @@ app.get("/auth", (req, res) => {
     `SELECT name FROM admin WHERE trash=0 AND username = "${username}" AND password = md5("${password}")`,
     function (err, rows, fields) {
       if (err) console.log(err);
-      console.log(rows.length);
+      // console.log(rows.length);
       res.send(rows);
     }
   );
@@ -40,7 +40,7 @@ app.get("/dashboard", (req, res) => {
 });
 app.get("/get-total", (req, res) => {
   const { date_start, date_end, review } = req.query;
-  console.log(req.query);
+  // console.log(req.query);
   let filter = "";
   if (date_start != "" && date_end != "") {
     if (review == "") {
@@ -49,12 +49,12 @@ app.get("/get-total", (req, res) => {
       filter = `WHERE review = '${review}' AND created_at BETWEEN '${date_start}' AND '${date_end}'`;
     }
   }
-  console.log(filter);
+  // console.log(filter);
   connection.query(
     `SELECT COUNT(*) AS total FROM survey ${filter}`,
     function (err, rows, fields) {
       if (err) console.log(err);
-      console.log(rows);
+      // console.log(rows);
       res.send(rows);
     }
   );
@@ -82,12 +82,12 @@ app.get("/get-review", (req, res) => {
       filter = `WHERE review = '${review}' AND created_at BETWEEN '${date_start}' AND '${date_end}'`;
     }
   }
-  console.log("filter " + filter);
+  // console.log("filter " + filter);
   connection.query(
     `SELECT * FROM survey ${filter} ORDER BY id DESC ${limitoffset}`,
     function (err, rows, fields) {
       if (err) console.log(err);
-      console.log(rows);
+      // console.log(rows);
       res.send(rows);
     }
   );
@@ -104,12 +104,12 @@ app.get("/get-total-data", (req, res) => {
       filter = `WHERE review = '${review}' AND created_at BETWEEN '${date_start}' AND '${date_end}'`;
     }
   }
-  console.log("filter " + filter);
+  // console.log("filter " + filter);
   connection.query(
     `SELECT * FROM survey ${filter} ORDER BY id DESC`,
     function (err, rows, fields) {
       if (err) console.log(err);
-      console.log(rows);
+      // console.log(rows);
       if (rows.length > 0) {
         let data = {
           totalTP: 0,
@@ -126,7 +126,7 @@ app.get("/get-total-data", (req, res) => {
             data.totalSP += 1;
           }
         }
-        console.log(data);
+        // console.log(data);
         res.send(data);
       } else {
         let data = {

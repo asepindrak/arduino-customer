@@ -6,6 +6,17 @@ app.controller("ctrl", function ($scope, $http, $window) {
     $scope.failed = false;
   };
   $scope.setData();
+
+  $scope.getLogin = function () {
+    $scope.login = $window.localStorage.getItem("login");
+    if ($scope.login == "1") {
+      var landingUrl = https + "dashboard";
+      $window.location.href = landingUrl;
+    }
+  };
+
+  $scope.getLogin();
+
   $scope.login = function (event) {
     event.preventDefault();
     $http
