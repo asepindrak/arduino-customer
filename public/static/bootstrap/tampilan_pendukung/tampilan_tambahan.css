@@ -1,0 +1,49 @@
+.display-4{
+    font-weight: bold;
+}
+.card-body-icon{
+    position: absolute;
+    z-index: 0;
+    top: 25px;
+    right: 4px;
+    opacity: 0.4;
+    font-size: 90px;
+}
+#tulisan{
+    color: black;
+  
+}
+.ukfot{
+    padding: 5px;
+}
+#sidebar{
+    height: 100% !important;
+}
+.pd-0{
+    padding:0 !important;
+}
+.all-center{
+    vertical-align:middle;
+}
+.pd-5{
+    padding: 5px;
+}
+html{
+    scroll-behavior: smooth !important;
+}
+.bg-white{
+    background:#fff !important;
+}
+.page-footer{
+    background: #f8b739 !important;
+}
+.navbar{
+    margin-bottom: 0 !important;
+}
+.bg-yellow{
+    background: #f8b739 !important;
+}
+.pdlr-10{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}

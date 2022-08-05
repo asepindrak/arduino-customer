@@ -21,16 +21,16 @@ app.get("/", (req, res) => {
 });
 var oldData = 0;
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  //console.log("a user connected");
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    //console.log("user disconnected");
   });
   comPort1.setMaxListeners(9000);
   comPort1.on("data", (data) => {
     data = JSON.stringify(data);
     data = JSON.parse(data);
     let survey = data.data[0];
-    console.log(survey);
+    //console.log(survey);
     let value = 2;
     if (survey == 24) {
       value = 1;
@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
     socket.emit("data", value);
     if (value != oldData) {
       oldData = value;
-      console.log(value);
+      //console.log(value);
       connection.query(
         `INSERT INTO survey SET value = ?`,
         [value],
@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
     }, 500);
   });
   socket.on("chat message", (msg) => {
-    console.log("message: " + msg);
+    //console.log("message: " + msg);
   });
 });
 

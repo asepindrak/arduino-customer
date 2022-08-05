@@ -7,6 +7,6 @@ var connection = mysql.createConnection({
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
 });
-console.log(process.env.USER);
+//console.log(process.env.USER);
 connection.connect();
 module.exports = connection;
