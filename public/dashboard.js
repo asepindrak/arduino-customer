@@ -1,8 +1,16 @@
 var app = angular.module("app", []);
 app.controller("ctrl", function ($scope, $http, $window) {
   $scope.setData = function () {
-    $scope.date_start = "";
-    $scope.date_end = "";
+    $scope.date_start = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    );
+    $scope.date_end = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      0
+    );
     $scope.review = "";
     $scope.total = 0;
     $scope.reviews = [];
