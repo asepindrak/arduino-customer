@@ -1,13 +1,13 @@
 const { SerialPort } = require("serialport");
 require("dotenv").config();
 const connection = require(__dirname + "/db/connection");
-// const comPort1 = new SerialPort({
-//   path: process.env.COM,
-//   baudRate: 19200,
-//   dataBits: 8,
-//   stopBits: 1,
-//   parity: "none",
-// });
+const comPort1 = new SerialPort({
+  path: process.env.COM,
+  baudRate: 19200,
+  dataBits: 8,
+  stopBits: 1,
+  parity: "none",
+});
 const express = require("express"),
   app = express();
 const { Server } = require("socket.io");
@@ -159,36 +159,36 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     //console.log("user disconnected");
   });
-  // comPort1.setMaxListeners(9000);
-  // comPort1.on("data", (data) => {
-  //   data = JSON.stringify(data);
-  //   data = JSON.parse(data);
-  //   let survey = data.data[0];
-  //   //console.log(survey);
-  //   let review = 2;
-  //   if (survey == 24) {
-  //     review = 1;
-  //   } else if (survey == 30) {
-  //     review = 0;
-  //   }
+  comPort1.setMaxListeners(9000);
+  comPort1.on("data", (data) => {
+    data = JSON.stringify(data);
+    data = JSON.parse(data);
+    let survey = data.data[0];
+    //console.log(survey);
+    let review = 2;
+    if (survey == 24) {
+      review = 1;
+    } else if (survey == 30) {
+      review = 0;
+    }
 
-  //   socket.emit("data", review);
-  //   if (review != oldData) {
-  //     oldData = review;
-  //     //console.log(review);
-  //     connection.query(
-  //       `INSERT INTO survey SET review = ?, created_at = ?`,
-  //       [review, today()],
-  //       function (err, rows, fields) {
-  //         if (err) console.log(err);
-  //       }
-  //     );
-  //   }
+    socket.emit("data", review);
+    if (review != oldData) {
+      oldData = review;
+      //console.log(review);
+      connection.query(
+        `INSERT INTO survey SET review = ?, created_at = ?`,
+        [review, today()],
+        function (err, rows, fields) {
+          if (err) console.log(err);
+        }
+      );
+    }
 
-  //   setTimeout(function () {
-  //     oldData = 0;
-  //   }, 500);
-  // });
+    setTimeout(function () {
+      oldData = 0;
+    }, 500);
+  });
 });
 
 server.listen(process.env.PORT, () =>

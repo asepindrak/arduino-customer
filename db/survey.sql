@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Agu 2022 pada 11.03
+-- Waktu pembuatan: 06 Agu 2022 pada 05.26
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -52,9 +52,27 @@ INSERT INTO `admin` (`id`, `username`, `name`, `password`, `created_at`, `update
 
 CREATE TABLE `survey` (
   `id` int(11) NOT NULL,
-  `value` tinyint(1) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `review` tinyint(1) DEFAULT NULL,
+  `created_at` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `survey`
+--
+
+INSERT INTO `survey` (`id`, `review`, `created_at`) VALUES
+(1, 1, '05-08-2022'),
+(2, 2, '05-08-2022'),
+(3, 2, '05-08-2022'),
+(4, 2, '05-08-2022'),
+(5, 2, '05-08-2022'),
+(6, 2, '05-08-2022'),
+(7, 2, '05-08-2022'),
+(8, 1, '05-08-2022'),
+(9, 0, '05-08-2022'),
+(10, 0, '05-08-2022'),
+(11, 1, '05-08-2022'),
+(12, 2, '05-08-2022');
 
 --
 -- Indexes for dumped tables
@@ -86,7 +104,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `survey`
 --
 ALTER TABLE `survey`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
