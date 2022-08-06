@@ -131,6 +131,53 @@ app.controller("ctrl", function ($scope, $http, $window) {
         $scope.getTotalData();
       });
   };
+
+  $scope.export = function () {
+    $scope.totalTP = 0;
+    $scope.totalP = 0;
+    $scope.totalSP = 0;
+    $http
+      .get(
+        `${https}get-review?page=${$scope.page}&limit=${
+          $scope.limit
+        }&date_start=${$scope.formatDate(
+          $scope.date_start
+        )}&date_end=${$scope.formatDate($scope.date_end)}&review=${
+          $scope.review
+        }`
+      )
+      .then(function (response) {
+        var result = response.data;
+        // console.log(result);
+        $scope.reviews = result;
+        $scope.getTotalData();
+        if ($scope.reviews.length == 0) {
+          alert("Tidak ada data.");
+          return;
+        }
+        $http
+          .get(
+            `${https}export?page=${$scope.page}&limit=${
+              $scope.limit
+            }&date_start=${$scope.formatDate(
+              $scope.date_start
+            )}&date_end=${$scope.formatDate($scope.date_end)}&review=${
+              $scope.review
+            }`
+          )
+          .then(function (response) {
+            var result = response.data;
+            console.log(result);
+            if (result.status == "success") {
+              var landingUrl = https + "files/" + result.path;
+              $window.location.href = landingUrl;
+            } else {
+              alert("Gagal membuat laporan");
+            }
+          });
+      });
+  };
+
   $scope.next = () => {
     if ($scope.page * $scope.limit < $scope.total) {
       $scope.page += 1;
